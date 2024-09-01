@@ -1,6 +1,6 @@
 # golden-goals-2024-02
 
-##Summary:
+## Summary:
 - Install Jenkins and run it locally.
 - Configure a node js project using pnpm, husky, eslint, winston/Morgan and vite/vitest(optional)
 - Develop a simple application where 
