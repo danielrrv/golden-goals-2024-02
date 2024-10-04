@@ -1,1 +1,1 @@
-./node_modules/.bin/pretty-quick --staged && ./node_modules/.bin/lint-staged
+./node_modules/.bin/lint-staged
