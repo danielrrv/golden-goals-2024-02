@@ -10,15 +10,33 @@ services:
       - ./:/app
     networks:
       - mynetwork
-
-  jenkins:
-    image: jenkins/jenkins:lts
+  mongodb:
+    image: mongo:7.0
     ports:
-      - "8080:8080"
+      - 27017:27017
     volumes:
-      - ../Jenkins/jenkins_home:/var/jenkins_home
+      - ../.mongodb/db:/data/db
     networks:
       - mynetwork
+
+  redisdb:
+    image: "redis:alpine"
+    ports:
+     - "6379:6379"
+    volumes:
+      - ../.redisdb/redis-data:/var/lib/redis
+      - ../.redisdb/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - mynetwork
+
+  # jenkins:
+  #   image: jenkins/jenkins:lts
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ../Jenkins/jenkins_home:/var/jenkins_home
+  #   networks:
+  #     - mynetwork
 
 networks:
   mynetwork:

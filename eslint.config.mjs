@@ -1,13 +1,13 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
+import eslintPluginPrettierRecommended  from "eslint-plugin-prettier/recommended"
 
 export default [
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
-  { languageOptions: { globals: globals.commonjs, ecmaVersion: 12 } },
+  { languageOptions: { globals: globals.node, ecmaVersion: 12 } },
   pluginJs.configs.recommended,
   {
     rules: {
-      "prettier/prettier": "error",
       "no-console": "off",
       eqeqeq: ["error", "always"],
       curly: ["error", "all"],
@@ -30,4 +30,6 @@ export default [
       "eol-last": ["error", "always"],
     },
   },
+  eslintPluginPrettierRecommended,
+  
 ];

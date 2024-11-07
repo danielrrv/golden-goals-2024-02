@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY ./package*.json ./
 
-RUN npm install
+RUN npm install -g pnpm
 
-CMD ["npm", "start"]
+RUN pnpm install
+
+CMD ["pnpm", "start-dev"]

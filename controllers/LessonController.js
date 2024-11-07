@@ -1,7 +1,6 @@
-
-const Lesson = require('../models/Lesson');
-const { validationResult } = require('express-validator');
-const logger = require('../utils/logger');
+const Lesson = require("../models/Lesson");
+const { validationResult } = require("express-validator");
+const logger = require("../utils/logger");
 
 class LessonController {
   async getAllLessons(req, res) {
@@ -10,8 +9,8 @@ class LessonController {
       logger.info(`Lessons retrieved by user ID: ${req.user._id}`);
       res.status(200).json(lessons);
     } catch (err) {
-      logger.error('Error retrieving lessons:', err);
-      res.status(500).json({ message: 'An error occurred.' });
+      logger.error("Error retrieving lessons:", err);
+      res.status(500).json({ message: "An error occurred." });
     }
   }
 
@@ -20,20 +19,20 @@ class LessonController {
       const lesson = await Lesson.findById(req.params.lessonId);
       if (!lesson) {
         logger.warn(`Lesson not found: ${req.params.lessonId}`);
-        return res.status(404).json({ message: 'Lesson not found.' });
+        return res.status(404).json({ message: "Lesson not found." });
       }
       logger.info(`Lesson retrieved: ${lesson.title}`);
       res.status(200).json(lesson);
     } catch (err) {
-      logger.error('Error retrieving lesson:', err);
-      res.status(500).json({ message: 'An error occurred.' });
+      logger.error("Error retrieving lesson:", err);
+      res.status(500).json({ message: "An error occurred." });
     }
   }
 
   async createLesson(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      logger.warn('Lesson creation failed due to validation errors.');
+      logger.warn("Lesson creation failed due to validation errors.");
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -41,14 +40,14 @@ class LessonController {
       const { title, content } = req.body;
       const lesson = new Lesson({
         title,
-        content,
+        content
       });
       const savedLesson = await lesson.save();
       logger.info(`Lesson created: ${savedLesson.title}`);
       res.status(201).json(savedLesson);
     } catch (err) {
-      logger.error('Error creating lesson:', err);
-      res.status(500).json({ message: 'An error occurred.' });
+      logger.error("Error creating lesson:", err);
+      res.status(500).json({ message: "An error occurred." });
     }
   }
 
@@ -56,7 +55,7 @@ class LessonController {
     // Handle validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      logger.warn('Lesson update failed due to validation errors.');
+      logger.warn("Lesson update failed due to validation errors.");
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -64,22 +63,21 @@ class LessonController {
       const updateData = req.body;
       updateData.updatedAt = Date.now();
 
-      const updatedLesson = await Lesson.findByIdAndUpdate(
-        req.params.lessonId,
-        updateData,
-        { new: true, runValidators: true }
-      );
+      const updatedLesson = await Lesson.findByIdAndUpdate(req.params.lessonId, updateData, {
+        new: true,
+        runValidators: true
+      });
 
       if (!updatedLesson) {
         logger.warn(`Lesson not found: ${req.params.lessonId}`);
-        return res.status(404).json({ message: 'Lesson not found.' });
+        return res.status(404).json({ message: "Lesson not found." });
       }
 
       logger.info(`Lesson updated: ${updatedLesson.title}`);
       res.status(200).json(updatedLesson);
     } catch (err) {
-      logger.error('Error updating lesson:', err);
-      res.status(500).json({ message: 'An error occurred.' });
+      logger.error("Error updating lesson:", err);
+      res.status(500).json({ message: "An error occurred." });
     }
   }
 
@@ -89,14 +87,14 @@ class LessonController {
 
       if (!deletedLesson) {
         logger.warn(`Lesson not found: ${req.params.lessonId}`);
-        return res.status(404).json({ message: 'Lesson not found.' });
+        return res.status(404).json({ message: "Lesson not found." });
       }
 
       logger.info(`Lesson deleted: ${deletedLesson.title}`);
-      res.status(200).json({ message: 'Lesson deleted successfully.' });
+      res.status(200).json({ message: "Lesson deleted successfully." });
     } catch (err) {
-      logger.error('Error deleting lesson:', err);
-      res.status(500).json({ message: 'An error occurred.' });
+      logger.error("Error deleting lesson:", err);
+      res.status(500).json({ message: "An error occurred." });
     }
   }
 }
