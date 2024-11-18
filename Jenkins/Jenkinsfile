@@ -11,7 +11,9 @@ pipeline {
         ACCOUNT_ID = '484056151642'
     }
 
-    stage('Login to AWS ECR') {
+    stages {
+
+        stage('Login to AWS ECR') {
             steps {
                 withCredentials([[
                     $class: 'AmazonWebServicesCredentialsBinding',
@@ -24,8 +26,6 @@ pipeline {
                 }
             }
         }
-
-    stages {
 
         stage('Checkout') {
             steps {
