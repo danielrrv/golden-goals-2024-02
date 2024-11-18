@@ -7,7 +7,7 @@ pipeline {
         ECR_REPO_NAME = 'public.ecr.aws/z7u2k1p5/images'
         IMAGE_TAG = 'latest'
         ACCOUNT_ID = '484056151642'
-        GIT_URL = 'https://github.com/danielrrv/golden-goals-2024-02.git'
+        GIT_URL = 'git@github.com:danielrrv/golden-goals-2024-02.git'
     }
 
     stages {
