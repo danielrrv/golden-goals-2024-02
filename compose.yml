@@ -29,14 +29,5 @@ services:
     networks:
       - mynetwork
 
-  # jenkins:
-  #   image: jenkins/jenkins:lts
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - ../Jenkins/jenkins_home:/var/jenkins_home
-  #   networks:
-  #     - mynetwork
-
 networks:
   mynetwork:

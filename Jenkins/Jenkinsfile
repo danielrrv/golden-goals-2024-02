@@ -1,13 +1,90 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Start Node.js Service') {
+    environment {
+        NODEJS_HOME = tool name: 'NodeJS LTS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        PATH = "${NODEJS_HOME}/bin:${env.PATH}"
+        AWS_CREDENTIALS_ID = 'aws-ecr-credentials'
+        AWS_REGION = 'us-east-1'
+        ECR_REPO_NAME = 'public.ecr.aws/z7u2k1p5/images'
+        IMAGE_TAG = 'latest'
+        ACCOUNT_ID = '484056151642'
+    }
+
+    stage('Login to AWS ECR') {
             steps {
-                script {
-                    sh 'docker-compose up -d nodejs'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "${AWS_CREDENTIALS_ID}"
+                ]]) {
+                    sh """
+                    aws ecr get-login-password --region ${AWS_REGION} | \\
+                    docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                    """
                 }
             }
+        }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                echo 'Checking out source code...'
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing dependencies...'
+                sh 'npm install'
+            }
+        }
+
+        stage('Code Quality') {
+            steps {
+                echo 'Running ESLint...'
+                sh 'npm run lint'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'Running tests...'
+                sh 'npm test'
+            }
+            post {
+                always {
+                    junit 'test-results.xml'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build -t ${ECR_REPO_NAME}:${IMAGE_TAG} ."
+            }
+        }
+
+         stage('Tag Docker Image') {
+            steps {
+                sh "docker tag ${ECR_REPO_NAME}:${IMAGE_TAG} ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMAGE_TAG}"
+            }
+        }
+
+        stage('Push to AWS ECR') {
+            steps {
+                sh "docker push ${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMAGE_TAG}"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed.'
         }
     }
 }

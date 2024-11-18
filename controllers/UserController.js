@@ -11,7 +11,7 @@ class UserController {
         return res.status(403).json({ message: "Access denied." });
       }
 
-      const user = await User.findById(req.params.userId).select("-password");
+      const user = await User.findById(req.params.userId, "-password");
       if (!user) {
         logger.warn(`User not found: ${req.params.userId}`);
         return res.status(404).json({ message: "User not found." });
@@ -50,8 +50,10 @@ class UserController {
 
       const updatedUser = await User.findByIdAndUpdate(req.params.userId, updateData, {
         new: true,
-        runValidators: true
-      }).select("-password");
+        runValidators: true,
+        lean: true,
+        select: "-password"
+      });
 
       if (!updatedUser) {
         logger.warn(`User not found: ${req.params.userId}`);

@@ -1,10 +1,10 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
-import eslintPluginPrettierRecommended  from "eslint-plugin-prettier/recommended"
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 
 export default [
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
-  { languageOptions: { globals: globals.node, ecmaVersion: 12 } },
+  { languageOptions: { globals: { ...globals.node, ...globals.jest }, ecmaVersion: 12 } },
   pluginJs.configs.recommended,
   {
     rules: {
@@ -27,9 +27,8 @@ export default [
       "block-spacing": ["error", "always"],
       "arrow-spacing": ["error", { before: true, after: true }],
       "no-trailing-spaces": "error",
-      "eol-last": ["error", "always"],
-    },
+      "eol-last": ["error", "always"]
+    }
   },
-  eslintPluginPrettierRecommended,
-  
+  eslintPluginPrettierRecommended
 ];
