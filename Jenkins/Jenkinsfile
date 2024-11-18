@@ -2,8 +2,6 @@ pipeline {
     agent any
 
     environment {
-        NODEJS_HOME = tool name: 'NodeJS LTS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
-        PATH = "${NODEJS_HOME}/bin:${env.PATH}"
         AWS_CREDENTIALS_ID = 'aws-ecr-credentials'
         AWS_REGION = 'us-east-1'
         ECR_REPO_NAME = 'public.ecr.aws/z7u2k1p5/images'
