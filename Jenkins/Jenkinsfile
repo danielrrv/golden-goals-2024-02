@@ -9,6 +9,7 @@ pipeline {
         ECR_REPO_NAME = 'public.ecr.aws/z7u2k1p5/images'
         IMAGE_TAG = 'latest'
         ACCOUNT_ID = '484056151642'
+        GIT_URL = 'https://github.com/danielrrv/golden-goals-2024-02.git'
     }
 
     stages {
@@ -30,7 +31,11 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
-                checkout scm
+                checkout([
+                    $class: 'GitSCM', 
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[url: GIT_URL]],
+                    credentialsId: 'JoeXaviCol'])
             }
         }
 
