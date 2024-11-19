@@ -7,7 +7,7 @@
     "start": "node index",
     "start-dev": "nodemon ./index.js",
     "prepare": "husky",
-    "lint": "eslint . --ext .js -f checkstyle -o eslint-report.xml",
+    "lint": "eslint .",
     "test": "jest --runInBand --coverage"
   },
   "keywords": [],
@@ -31,6 +31,7 @@
     "dotenv": "^16.4.5",
     "eslint": "^9.10.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-formatter-checkstyle": "^8.40.0",
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.9.0",
     "husky": "^9.1.6",
