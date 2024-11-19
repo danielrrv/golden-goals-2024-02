@@ -7,6 +7,7 @@
     "start": "node index",
     "start-dev": "nodemon ./index.js",
     "prepare": "husky",
+    "lint": "eslint . --ext .js -f checkstyle -o eslint-report.xml",
     "test": "jest --runInBand --coverage"
   },
   "keywords": [],

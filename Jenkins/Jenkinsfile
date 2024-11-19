@@ -38,21 +38,21 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing dependencies...'
-                sh 'npm install'
+                sh 'pnpm install'
             }
         }
 
         stage('Code Quality') {
             steps {
                 echo 'Running ESLint...'
-                sh 'npm run lint'
+                sh 'pnpm run lint'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
-                sh 'npm test'
+                sh 'pnpm test'
             }
             post {
                 always {
