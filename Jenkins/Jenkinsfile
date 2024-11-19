@@ -29,11 +29,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out source code...'
-                checkout([
-                    $class: 'GitSCM', 
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[url: GIT_URL]],
-                    credentialsId: 'JoeXaviCol'])
+                git branch: 'main',
+                url: GIT_URL,
+                credentialsId: 'git-credentials-id'
             }
         }
 
