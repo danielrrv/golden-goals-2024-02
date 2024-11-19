@@ -6,7 +6,7 @@ pipeline {
         AWS_REGION = 'us-east-1'
         ECR_REPO_NAME = 'public.ecr.aws/z7u2k1p5/images'
         IMAGE_TAG = 'latest'
-        ACCOUNT_ID = '4840-5615-1642'
+        ACCOUNT_ID = '484056151642'
         GIT_URL = 'git@github.com:danielrrv/golden-goals-2024-02.git'
     }
 
