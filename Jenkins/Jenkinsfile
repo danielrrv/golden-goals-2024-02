@@ -31,7 +31,7 @@ pipeline {
                 echo 'Checking out source code...'
                 git branch: 'main',
                 url: GIT_URL,
-                credentialsId: 'git-credentials-id'
+                credentialsId: 'JoeXaviCol'
             }
         }
 
